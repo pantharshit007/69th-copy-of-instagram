@@ -2,8 +2,6 @@ import { storiesData } from "@/data/stories";
 import React, { useState } from "react";
 import StoryViewer from "./StoryViewer";
 import type { Story } from "@/types/type";
-import { useStoryNav } from "@/hooks/useStoryNav";
-import { useStoriesStore } from "@/store/sotries-store";
 
 function StoryList() {
   const [open, setOpen] = useState(false);

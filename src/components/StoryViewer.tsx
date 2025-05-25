@@ -2,6 +2,7 @@ import { useStoryNav } from "@/hooks/useStoryNav";
 import type { Story } from "@/types/type";
 import { X } from "lucide-react";
 import React, { useState, type MouseEvent } from "react";
+import StoryProgress from "./StoryProgress";
 
 function StoryViewer({
   story,
@@ -15,26 +16,41 @@ function StoryViewer({
   const [currImg, setCurrImg] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
+  const goToNextStory = () => {
+    if (currImg < story.image.length - 1) {
+      setCurrImg(currImg + 1);
+    } else {
+      setOpen(false);
+    }
+  };
+
+  const goToPrevStory = () => {
+    if (currImg > 0) {
+      setCurrImg(currImg - 1);
+    } else {
+      setOpen(false);
+    }
+  };
+
   // will use hook here ig?
   const handleTap = (e: MouseEvent<HTMLElement>) => {
     const targetWidth = e.currentTarget.clientWidth;
     if (e.nativeEvent.offsetX > targetWidth / 2) {
-      if (currImg < story.image.length - 1) {
-        setCurrImg(currImg + 1);
-      } else {
-        setOpen(false);
-      }
+      goToNextStory();
     } else {
-      if (currImg > 0) {
-        setCurrImg(currImg - 1);
-      } else {
-        setOpen(false);
-      }
+      goToPrevStory();
     }
   };
 
   return (
     <div className="max-w-md mx-auto h-screen  bg-zinc-950 flex flex-col relative">
+      <StoryProgress
+        count={story.image.length}
+        currentIndex={currImg}
+        duration={5}
+        onComplete={goToNextStory}
+      />
+
       <div className="absolute top-3.5 left-4 z-10 flex items-center">
         <div className="w-8 h-8 rounded-full overflow-hidden border border-pink-500">
           <img src={story.avatar} alt={story.username} className="w-full h-full object-cover" />
