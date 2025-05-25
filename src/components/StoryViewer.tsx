@@ -1,20 +1,28 @@
 import { useStoryNav } from "@/hooks/useStoryNav";
 import type { Story } from "@/types/type";
 import { X } from "lucide-react";
-import React, { useState, type MouseEvent } from "react";
+import React, { useEffect, useState, type MouseEvent } from "react";
 import StoryProgress from "./StoryProgress";
 
 function StoryViewer({
   story,
   setOpen,
-  allStories,
 }: {
   story: Story;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  allStories: Story[];
 }) {
   const [currImg, setCurrImg] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!story) return;
+
+    setIsLoading(true);
+
+    const img = new Image();
+    img.src = story.image[currImg];
+    img.onload = () => setIsLoading(false);
+  }, [story]);
 
   const goToNextStory = () => {
     if (currImg < story.image.length - 1) {

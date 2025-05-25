@@ -36,7 +36,7 @@ function StoryList() {
         </div>
       )}
 
-      {open && <StoryViewer story={currentStory!} setOpen={setOpen} allStories={storiesData} />}
+      {open && <StoryViewer story={currentStory!} setOpen={setOpen} />}
     </div>
   );
 }
