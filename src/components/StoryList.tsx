@@ -2,11 +2,14 @@ import { storiesData } from "@/data/stories";
 import React, { useState } from "react";
 import StoryViewer from "./StoryViewer";
 import type { Story } from "@/types/type";
+import { useStoryNav } from "@/hooks/useStoryNav";
+import { useStoriesStore } from "@/store/sotries-store";
 
 function StoryList() {
   const [open, setOpen] = useState(false);
   const [currentStory, setCurrentStory] = useState<Story | null>(null);
-  const openViewer = (story: Story) => {
+
+  const openViewer = (story: Story, idx: number) => {
     setOpen(true);
     setCurrentStory(story);
   };
@@ -18,7 +21,7 @@ function StoryList() {
             <div
               key={story.id}
               className="flex flex-col items-center cursor-pointer"
-              onClick={() => openViewer(story)}
+              onClick={() => openViewer(story, idx)}
             >
               <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 p-[2px] flex items-center justify-center">
                 <div className="bg-black rounded-full">
@@ -35,7 +38,7 @@ function StoryList() {
         </div>
       )}
 
-      {open && <StoryViewer story={currentStory!} setOpen={setOpen} />}
+      {open && <StoryViewer story={currentStory!} setOpen={setOpen} allStories={storiesData} />}
     </div>
   );
 }

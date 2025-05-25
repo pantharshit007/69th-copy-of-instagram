@@ -1,3 +1,4 @@
+import { useStoryNav } from "@/hooks/useStoryNav";
 import type { Story } from "@/types/type";
 import { X } from "lucide-react";
 import React, { useState, type MouseEvent } from "react";
@@ -5,9 +6,11 @@ import React, { useState, type MouseEvent } from "react";
 function StoryViewer({
   story,
   setOpen,
+  allStories,
 }: {
   story: Story;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  allStories: Story[];
 }) {
   const [currImg, setCurrImg] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -16,9 +19,17 @@ function StoryViewer({
   const handleTap = (e: MouseEvent<HTMLElement>) => {
     const targetWidth = e.currentTarget.clientWidth;
     if (e.nativeEvent.offsetX > targetWidth / 2) {
-      setCurrImg(currImg + 1);
+      if (currImg < story.image.length - 1) {
+        setCurrImg(currImg + 1);
+      } else {
+        setOpen(false);
+      }
     } else {
-      setCurrImg(currImg - 1);
+      if (currImg > 0) {
+        setCurrImg(currImg - 1);
+      } else {
+        setOpen(false);
+      }
     }
   };
 
