@@ -23,6 +23,9 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      'react-refresh/unsafe-named-export': 'warn',
+      "@typescript-eslint/no-unused-vars": "off",
+      "no-unused-vars": "off",
     },
   },
 )
